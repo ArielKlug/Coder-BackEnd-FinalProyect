@@ -6,7 +6,7 @@ dotenv.config({
   path: mode === "development" ? "./.env.development" : "./.env.production",
 });
 
-const enviroment = process.env.MODE
+const enviroment = process.env.MODE;
 
 const JWT_PRIVATE_KEY = process.env.JWT_SECRET_KEY;
 
