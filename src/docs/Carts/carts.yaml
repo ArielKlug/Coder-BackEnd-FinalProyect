@@ -1,0 +1,212 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtiene todos los carritos
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Los carritos fueron obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/cart"
+        "500":
+          description: Error interno del server, usualmente generado por una query defectuosa
+
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un carrito por su cid
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El Id del carrito a solicitar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: el carrito fue obtenido correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cart"
+        "404":
+          description: El carrito no se encontró o no existe
+        "500":
+          description: Error interno del server, usualmente generado por una query defectuosa
+    delete:
+      summary: Vacía el carrito totalmente
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El Id del carrito a vaciar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: el carrito fue vaciado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/emptyCart"
+        "404":
+          description: El carrito no se encontró o no existe
+        "500":
+          description: Error interno del server, usualmente generado por una query defectuosa
+  /api/carts/{cid}/purchase:
+    get:
+      summary: Crea el ticket de la compra, de no haber stock para abastecer la compra, los productos con stock insuficiente permanecen en el carrito sin cobrarse
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El Id del carrito a procesar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: el ticket fue creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cart"
+        "404":
+          description: El carrito no se encontró o no existe
+        "500":
+          description: Error interno del server, usualmente generado por una query defectuosa
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Agregar un producto al carrito, si ya existe ese producto en el carrito solo aumenta su cantidad, se necesita estar registrado y loggeado para usarse
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El Id del carrito al que agregar un producto
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: El Id del producto a agregar al carrito
+          schema:
+            type: string
+      responses:
+        "200":
+          description: el producto fue agregado al carrito exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cart"
+        "404":
+          description: El carrito/producto no se encontró o no existe
+        "500":
+          description: Error interno del server, usualmente generado por una query defectuosa
+    delete:
+      summary: Eliminar un producto del carrito
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El Id del carrito al que agregar un producto
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: El Id del producto a agregar al carrito
+          schema:
+            type: string
+      responses:
+        "200":
+          description: el producto fue agregado al carrito exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cart"
+        "404":
+          description: El carrito no se encontró o no existe
+        "500":
+          description: Error interno del server, usualmente generado por una query defectuosa
+components:
+  schemas:
+    cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id del carrito autogenerada por Mongo.
+        products:
+          type: array
+          description: Array de productos del carrito
+          items:
+            type: object
+            properties:
+              product:
+                type: string
+                description: Id del producto
+              quantity:
+                type: number
+                description: Cantidad del producto en el carrito
+              _id:
+                type: string
+                description: Id autogenerada por mongo
+        userId:
+          type: string
+          description: Id del usuario al que pertenece el carrito
+
+      example:
+        _id: ObjectId('64ac7f3abbfcc0c46a722e09')
+        products:
+          [
+            {
+              product: ObjectId('6472db04319d717aed293686'),
+              quantity: 4,
+              _id: ObjectId('64be1ad4d0371c4e03500a1f'),
+            },
+          ]
+        userId: "64ac7f3abbfcc0c46a722e0b"
+
+    emptyCart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id del carrito autogenerada por Mongo.
+        products:
+          type: array
+          description: Array de productos del carrito
+          items:
+            type: object
+        userId:
+          type: string
+
+      example:
+        _id: ObjectId('64ac7f3abbfcc0c46a722e09')
+        products: []
+        userId: "64ac7f3abbfcc0c46a722e0b"

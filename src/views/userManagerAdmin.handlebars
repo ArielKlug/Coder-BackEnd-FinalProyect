@@ -1,0 +1,33 @@
+<center><h1>Lista de Usuarios </h1></center>
+
+<div class="delete-button-container">
+  <button class="delete-button" onclick="deleteSelectedUsers()">Eliminar
+    Usuarios Inactivos</button>
+</div>
+<ul>
+  {{#each users}}
+    <li>
+      <p>_Id: {{this._id}}</p>
+      <p>First_name: {{this.first_name}}</p>
+      <p>Last_name: {{this.last_name}}</p>
+      <p>Email: {{this.email}}</p>
+      <p>Role: {{this.role}}</p>
+      <p>Last:connection: {{this.last_login}}</p>
+
+      <button onclick="changeRole('{{this._id}}', 'admin')">Asignar Rol de Admin</button>
+      <button onclick="changeRole('{{this._id}}', 'user')">Asignar Rol de
+        Usuario</button>
+      <button onclick="changeRole('{{this._id}}', 'user_premium')">Asignar Rol
+        de Usuario Premium</button>
+      <button onclick="deleteUser('{{this._id}}')">Eliminar Usuario</button>
+    </li>
+  {{/each}}
+</ul>
+
+<center>{{#if hasPrevPage}}
+    <a href="/api/users?limit={{limit}}&page={{prevPage}}">Anterior</a>
+  {{/if}}
+
+  {{#if hasNextPage}}
+    <a href="/api/users?limit={{limit}}&page={{nextPage}}">Siguiente</a>
+  {{/if}}</center>

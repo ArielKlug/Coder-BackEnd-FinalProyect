@@ -1,0 +1,29 @@
+<div class="cart-container">
+    <h2>Carrito de Compras</h2>
+
+    {{#if cart.products.length}}
+        {{#each cart.products}}
+            <div class="cart-product">
+                <img class="cart-product-image" src="" alt="{{this.product.title}}" />
+                <div class="cart-product-details">
+                    <div class="cart-product-name">{{this.product.title}}</div>
+                    <div class="cart-product-price">Precio: ${{this.product.price}}</div>
+                    <div class="cart-product-quantity">Cantidad: {{this.quantity}}</div>
+                    <button class="remove-button" onclick="deleteProduct('{{../cartId}}','{{this.product._id}}')">Eliminar</button>
+                </div>
+            </div>
+        {{/each}}
+        <div class="cart-checkout">
+            <a href="/api/carts/{{cartId}}/prePurchase"><button class="checkout-button">Efectuar Compra</button></a>
+            
+            <a href="/api/products"><button class="checkout-button">Volver a la tienda</button></a>
+       
+        </div>
+        
+    {{else}}
+        <p>Tu carrito está vacío.</p>
+        <div class="cart-checkout">
+            <a href="/api/products"><button class="checkout-button">Volver a la tienda</button></a>
+        </div>
+    {{/if}}
+</div>

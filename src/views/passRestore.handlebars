@@ -1,0 +1,24 @@
+<div>
+  <h1>Restore your password</h1>
+
+
+<h2>Ingrese su nueva contraseña</h2>
+  <form  action="/api/sessions/passRestoration" method="POST" id="form">
+    <label>New password</label>
+    <input name="newPassword" />
+    <br />
+    <label>Confirm Password</label>
+<input type="hidden" name="email" value="{{email}}" />
+    <input name="confirmPassword" />
+    <input type="submit" />
+  </form>
+
+<a href="/"><button>Volver al login</button></a>
+
+
+ 
+
+</div>
+
+
+

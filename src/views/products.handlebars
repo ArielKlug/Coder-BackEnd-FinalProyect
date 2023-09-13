@@ -1,0 +1,43 @@
+<div>
+<center><h1>Bienvenido {{first_name}} {{last_name}} al mercadito del Tío Ari</h1></center>
+
+
+<ul>
+  {{#each products}}
+    <li class="product-details">
+      <h2 class="product-name">{{this.title}}</h2>
+      <h3>{{this.category}}</h3>
+      <p>{{this.description}}</p>
+      <p class="product-price">{{this.price}}</p>
+
+      <form
+        method="post"
+        action="/api/carts/{{../cartId}}/products/{{this._id}}"
+      >
+        <button type="submit">Agregar al carrito</button>
+      </form>
+      <br>
+   </li>
+  {{/each}}
+ </ul>
+
+
+  <center>
+    {{#if hasPrevPage}}
+      <a href="/api/products?limit={{limit}}&page={{prevPage}}"><button
+        >anterior</button></a>
+    {{/if}}
+
+    {{#if hasNextPage}}
+      <a href="/api/products?limit={{limit}}&page={{nextPage}}"><button
+        >Siguiente</button></a>
+    {{/if}}
+    <a href="/api/sessions/logout"><button>Lougout</button></a>
+  </center>
+
+  <div class="cart-button">
+    <a href="/api/carts/{{cartId}}"><button>Carrito</button></a>
+  </div>
+</div>
+
+

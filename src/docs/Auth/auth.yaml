@@ -1,0 +1,85 @@
+paths:
+  /api/sessions/login:
+    post:
+      tags:
+        - Auth
+      summary: Te loggea y devuelve la cookie que corresponde al schema que uses de ejemplo (ver schemas de Login para diferentes roles)
+      requestBody:
+        required: true
+        description: Un objeto JSON que contiene los datos del loggeo
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/loginRequest'
+                - $ref: '#/components/schemas/loginPremiumRequest'
+                - $ref: '#/components/schemas/loginAdminRequest'
+      security: [] # O sea que no necesita autenticación
+      responses:
+        "200":
+          description:
+            Successfully authenticated.
+            The session ID is returned in a cookie named "CoderCookie" you need it for subsecuent requests.
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: CoderCookie=182094yu2rh2j39r1y8423ijwe; path=/; HttpOnly
+               
+ 
+          
+
+components:
+  schemas:
+    loginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: coderTesting@gmail.com
+        password:
+          type: string
+          example: hereGoesThePassword
+
+    loginPremiumRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: userpremium@gmail.com
+        password:
+          type: string
+          example: UserPremium
+    
+    loginAdminRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: CoderAdmin@gmail.com
+        password:
+          type: string
+          example: CoderAdmin
+
+
+  securitySchemes:
+    cookieAuth: # nombre arbitrario para el schema, luego se usa en la key "security"
+      type: apiKey
+      in: cookie
+      name: CoderCookie # nombre de la cookie
+    
+  responses:
+    UnauthorizedError:
+      description: Información de autenticación faltante o inválida
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: ERROR
+              error:
+                type: string
+                example: No auth token
+  

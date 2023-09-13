@@ -1,0 +1,183 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - products
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Los productos fueron obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/allProducts"
+        "404":
+          description: Los productos no se encontraron o no existen
+        "500":
+          description: Error interno del server, usualmente generado por una query defectuosa
+    post:
+      summary: Crea un producto, solo habilitado para usuarios premium y administradores
+      tags:
+        - products
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: El producto fue creado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/product"
+        "500":
+          description: Error interno del server, usualmente generado por una query defectuosa
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un producto por su pid
+      tags:
+        - products
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El Id del producto a solicitar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: El producto fue obtenido correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+        "404":
+          description: El producto no se encontró o no existe
+        "500":
+          description: Error interno del server, usualmente generado por una query defectuosa
+    put:
+      summary: Actualiza un producto, enviando el producto ya actualizado
+      tags:
+        - products
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El Id del producto a actualizar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: El producto fue actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+        "404":
+          description: El producto no se encontró o no existe
+        "500":
+          description: Error interno del server, usualmente generado por una query defectuosa
+    delete:
+      summary: Elimina el producto de la base de datos
+      tags:
+        - products
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El Id del producto a eliminar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: El producto fue eliminado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/productDeleted"
+        "404":
+          description: El producto no se encontró o no existe
+        "500":
+          description: Error interno del server, usualmente generado por una query defectuosa
+components:
+  schemas:
+    product:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        thumbnail:
+          type: string
+        code:
+          type: string
+        stock:
+          type: number
+        category:
+          type: string
+        owner:
+          type: string
+      example:
+        _id: ObjectId('6472dae2319d717aed29367e')
+        title: "Camisa 1"
+        description: "Camisa blanca liviana para este calor insoportable"
+        price: 10351.25
+        thumbnail: "s"
+        code: "osiadfheasdasr1293afssdg48"
+        stock: 38
+        category: "camisas"
+        owner: asd@gmail.com
+
+    productDeleted:
+      type: object
+      properties:
+        status:
+          type: string
+        payload:
+          type: string
+
+      example: { status: success, payload: product deleted successfully }
+
+    allProducts:
+      type: array
+      items:
+        allOf: [$ref: "#/components/schemas/product"]
+
+      example:
+        [
+          {
+            _id: ObjectId('6472dae2319d717aed29367e'),
+            title: "Camisa 1",
+            description: "Camisa blanca liviana para este calor insoportable",
+            price: 10351.25,
+            thumbnail: "s",
+            code: "osiadfheasdasr1293afssdg48",
+            stock: 38,
+            category: "camisas",
+            owner: asd@gmail.com,
+          },
+          {
+            _id: ObjectId('6472dafe2319d717aed29367e'),
+            title: "Camisa 2",
+            description: "Camisa blanca liviana para este calor insoportable",
+            price: 140351.25,
+            thumbnail: "s",
+            code: "osiadfheaasdsdasr1293afssdg48",
+            stock: 382,
+            category: "camisas",
+            owner: awetsd@gmail.com,
+          },
+        ]

@@ -1,0 +1,97 @@
+/* Estilos para el carrito */
+.cart-container {
+  background-color: #000;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.cart-product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.cart-product-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.cart-product-details {
+  flex: 1;
+  padding: 0 10px;
+}
+
+.cart-product-name {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.cart-product-price {
+  font-size: 16px;
+  color: #cc1a1a;
+}
+
+/* Estilo para el botón del carrito */
+.cart-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 999;
+}
+
+.cart-button button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.cart-checkout {
+  position: fixed;
+  bottom: 10px; /* Ajusta la posición vertical como desees */
+  left: 10px; /* Ajusta la posición horizontal como desees */
+}
+
+.checkout-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.checkout-button:hover {
+  background-color: #0056b3;
+}
+
+.delete-button {
+    background-color: #ff4136; 
+    color: #ffffff; 
+    border: none; 
+    border-radius: 4px; 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    margin-top: 10px;
+  }
+
+  
+  .delete-button:hover {
+    background-color: #ff0000; 
+  }
+
+  
+  .delete-button-container {
+    text-align: right; 
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+  }

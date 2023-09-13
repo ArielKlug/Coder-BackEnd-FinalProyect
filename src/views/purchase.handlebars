@@ -1,0 +1,23 @@
+<h1>Resumen de Pedido</h1>
+
+<h2>Productos en el Carrito</h2>
+<ul>
+  {{#each cart.products}}
+    <li>{{this.product.title}}
+      - Precio: ${{this.product.price}}
+      - Cantidad:
+      {{this.quantity}}</li>
+  {{/each}}
+</ul>
+
+<h2>Total de la Compra: ${{total}}</h2>
+
+<form action="/api/carts/{{cartId}}/purchase" method="post">
+  <label>Dirección de envío</label>
+  <input name="address" required />
+
+  <button type="submit">Confirmar Compra</button>
+</form>
+<div class="cart-checkout">
+  <a href="/api/products"><button class="checkout-button">Volver a la tienda</button></a>
+</div>
