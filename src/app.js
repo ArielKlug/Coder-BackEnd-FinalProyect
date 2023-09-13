@@ -22,7 +22,7 @@ const app = express();
 const serverHttp = new ServerHTTP(app);
 const io = new ServerIO(serverHttp);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 socketChat(io);
 
